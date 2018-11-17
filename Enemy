@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy : MonoBehaviour
+{
+
+    public float speed = 8; //Paddle speed 
+    Vector3 targetPos;
+    GameObject ballObj;
+    Vector3 playerPos;
+
+    void Start()
+    {
+        //ballObj is gameObject tagged Ball
+        ballObj = GameObject.FindGameObjectWithTag("Ball");
+    }
+
+    void Update()
+    {
+        //Create ball after game over/reset
+        ballObj = GameObject.FindGameObjectWithTag("Ball");
+        if (ballObj != null)
+        {
+            //Enemy follows ball 
+            targetPos = Vector3.Lerp(transform.position, ballObj.transform.position, Time.deltaTime * speed); //Enemy movement speed set
+            playerPos = new Vector3(-20, Mathf.Clamp(targetPos.y, -12.5f, 12.5f), 0); // Movement boundries for enemy
+            transform.position = new Vector3(20, playerPos.y, 0); //Moves based on ball position
+        }              
+    }
+}
